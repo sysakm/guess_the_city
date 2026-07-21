@@ -2,9 +2,10 @@ import type {PhotoStatus, StatisticsCache, TaskOptions} from "../types.ts";
 import {useEffect, useState} from "react";
 import {requestCityPhoto} from "../api/unsplash.ts";
 import {generateOptions} from "../game/data.ts";
-import {loadStatsCache} from "../storage/statsStorage.ts";
+import {loadStatsCache, saveStatsCache} from "../storage/statsStorage.ts";
 import Photo from "./Photo.tsx";
 import StatsBox from "./StatsBox.tsx";
+import AnswerContainer from "./AnswerContainer.tsx";
 
 function GameBoard() {
     const [status, setStatus] = useState<PhotoStatus>({
@@ -28,6 +29,7 @@ function GameBoard() {
     function loadNewTask() {
         const newOptions = generateOptions()
         setOptions(newOptions)
+        setChosenIndex(undefined)
 
         const correctCity = newOptions.cities[newOptions.correctIndex]
         void loadPhoto(correctCity)
@@ -40,17 +42,62 @@ function GameBoard() {
         loadNewTask()
     }, [])
 
+    useEffect(() => {
+        if (stats) {
+            saveStatsCache(stats)
+        }
+    }, [stats])
+
+    function handleAnswer(index: number) {
+        if (chosenIndex !== undefined) {
+            return
+        }
+        setChosenIndex(index)
+        if (options === undefined) {
+            throw new Error('Something went wrong with task creation.')
+        } else if (index === options.correctIndex) {
+            setStats(
+                (s) => ({
+                    wins: (s?.wins ?? 0) + 1,
+                    losses: (s?.losses ?? 0)
+                })
+            )
+        } else {
+            setStats(
+                (s) => ({
+                    wins: (s?.wins ?? 0),
+                    losses: (s?.losses ?? 0) + 1
+                })
+            )
+        }
+    }
+
+    function resetStatistics() {
+        const areYouSure = confirm('Are you sure you want to reset your stats?')
+        if (areYouSure) {
+            setStats({wins: 0, losses: 0})
+        }
+    }
 
     return (
         <div>
             {stats && <StatsBox stats={stats}/>}
             <Photo status={status}/>
-            <p>{JSON.stringify(options)}</p>
+            {(status.type === 'success') && options && <AnswerContainer
+                options={options}
+                chosenIndex={chosenIndex}
+                updateChosenIndex={handleAnswer}
+            />}
 
             <button
                 type='button'
                 onClick={loadNewTask}
-            ></button>
+                disabled={status.type === 'loading'}
+            >Next city</button>
+            <button
+                type='button'
+                onClick={resetStatistics}
+            >Reset statistics</button>
         </div>
     )
 }

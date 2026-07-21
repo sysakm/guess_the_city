@@ -6,7 +6,10 @@ type StatsBoxProps = {
 
 function StatsBox({stats}: StatsBoxProps) {
     return (
-        <p>You won <span>{stats.wins}</span> times. You lost <span>{stats.losses}</span> times.</p>
+        <p>
+            You won <span className='success'>{stats.wins}</span> times.
+            You lost <span className='error'>{stats.losses}</span> times.
+        </p>
     )
 }
 

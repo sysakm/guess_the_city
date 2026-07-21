@@ -14,7 +14,7 @@ function Photo({status}: PhotoProps) {
         )
     }
     return (
-        <img src={status.url} alt='photo' />
+        <img src={status.url} alt='photo' width='500px'/>
     )
 }
 
