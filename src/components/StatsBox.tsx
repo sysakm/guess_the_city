@@ -6,10 +6,11 @@ type StatsBoxProps = {
 
 function StatsBox({stats}: StatsBoxProps) {
     return (
-        <p>
-            You won <span className='success'>{stats.wins}</span> times.
-            You lost <span className='error'>{stats.losses}</span> times.
-        </p>
+        <div className='stats-box' aria-label='Game statistics'>
+            <p>Wins <strong className='success'>{stats.wins}</strong></p>
+            <span className='stats-box__divider' aria-hidden='true'/>
+            <p>Losses <strong className='error'>{stats.losses}</strong></p>
+        </div>
     )
 }
 

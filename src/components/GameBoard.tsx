@@ -80,7 +80,12 @@ function GameBoard() {
     }
 
     return (
-        <div>
+        <section className='game-card'>
+            <div className='game-card__header'>
+                <p className='game-card__eyebrow'>Photo quiz</p>
+                <h1>Guess the City</h1>
+                <p className='game-card__subtitle'>Choose the city shown in the photo.</p>
+            </div>
             {stats && <StatsBox stats={stats}/>}
             <Photo status={status}/>
             {(status.type === 'success') && options && <AnswerContainer
@@ -89,16 +94,20 @@ function GameBoard() {
                 updateChosenIndex={handleAnswer}
             />}
 
-            <button
-                type='button'
-                onClick={loadNewTask}
-                disabled={status.type === 'loading'}
-            >Next city</button>
-            <button
-                type='button'
-                onClick={resetStatistics}
-            >Reset statistics</button>
-        </div>
+            <div className='game-actions'>
+                <button
+                    className='action-button action-button--primary'
+                    type='button'
+                    onClick={loadNewTask}
+                    disabled={status.type === 'loading'}
+                >Next city</button>
+                <button
+                    className='action-button action-button--secondary'
+                    type='button'
+                    onClick={resetStatistics}
+                >Reset statistics</button>
+            </div>
+        </section>
     )
 }
 

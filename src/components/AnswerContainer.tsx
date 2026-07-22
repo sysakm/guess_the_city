@@ -14,22 +14,24 @@ function AnswerContainer({options, chosenIndex, updateChosenIndex}: AnswerContai
     }
 
     return (
-        <div>
+        <div className='answers'>
             {chosenIndex !== undefined && (
                 chosenIndex === options.correctIndex ?
-                    <p className='success'>Correct!</p> :
-                    <p className='error'>Wrong! The answer is {options.cities[options.correctIndex]}.</p>
+                    <p className='answer-result success'>Correct!</p> :
+                    <p className='answer-result error'>Wrong! The answer is {options.cities[options.correctIndex]}.</p>
             )}
-            {options.cities.map((city, index) => (
-                <AnswerButton
-                    key={city}
-                    disabled={chosenIndex !== undefined}
-                    city={city}
-                    isCorrect={index === options.correctIndex}
-                    isChosen={index === chosenIndex}
-                    onClick={() => handleClick(index)}
-                />
-            ))}
+            <div className='answer-grid'>
+                {options.cities.map((city, index) => (
+                    <AnswerButton
+                        key={city}
+                        disabled={chosenIndex !== undefined}
+                        city={city}
+                        isCorrect={index === options.correctIndex}
+                        isChosen={index === chosenIndex}
+                        onClick={() => handleClick(index)}
+                    />
+                ))}
+            </div>
         </div>
     )
 }

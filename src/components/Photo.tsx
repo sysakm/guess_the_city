@@ -5,16 +5,22 @@ type PhotoProps = {status: PhotoStatus}
 function Photo({status}: PhotoProps) {
     if (status.type === 'idle' || status.type === 'loading') {
         return (
-            <p>{status.message}</p>
+            <div className='photo-frame photo-frame--message'>
+                <p>{status.message}</p>
+            </div>
         )
     }
     if (status.type === 'error') {
         return (
-            <p className='error'>{status.message}</p>
+            <div className='photo-frame photo-frame--message'>
+                <p className='error'>{status.message}</p>
+            </div>
         )
     }
     return (
-        <img src={status.url} alt='photo' width='500px'/>
+        <div className='photo-frame'>
+            <img src={status.url} alt='City to guess'/>
+        </div>
     )
 }
 

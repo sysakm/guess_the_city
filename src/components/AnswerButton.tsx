@@ -7,9 +7,11 @@ type AnswerButtonProps = {
 }
 
 function AnswerButton({disabled, city, isCorrect, isChosen, onClick}: AnswerButtonProps) {
+    const resultClass = isChosen || (disabled && isCorrect) ? (isCorrect ? 'success' : 'error') : ''
+
     return (
         <button
-            className={isChosen || (disabled && isCorrect) ? (isCorrect ? 'success' : 'error') : ''}
+            className={`answer-button ${resultClass}`}
             type='button'
             disabled={disabled}
             onClick={() => onClick()}
