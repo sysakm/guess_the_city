@@ -9,8 +9,17 @@ function LoginPage({user, onSubmit}: LoginPageProps) {
     const [currentUser, setCurrentUser] = useState<string>('')
 
     return (
-        <>
+        <section className='login-card'>
+            <div className='login-card__header'>
+                <p className='login-card__eyebrow'>Player account</p>
+                <h2>Welcome back</h2>
+                <p>
+                    Currently playing as <strong>{user}</strong>.
+                    Enter another name to switch player.
+                </p>
+            </div>
             <form
+                className='login-form'
                 onSubmit={(e) => {
                     e.preventDefault()
                     if (!currentUser.trim()) {
@@ -19,10 +28,10 @@ function LoginPage({user, onSubmit}: LoginPageProps) {
                     onSubmit(currentUser.trim())
                 }}
             >
-                <p>Currently logged in as {user}. Please enter your name if that is not you.</p>
-                <label htmlFor='user'>Username</label>
-                <div>
+                <label className='login-form__label' htmlFor='user'>Username</label>
+                <div className='login-form__controls'>
                     <input
+                        className='login-form__input'
                         id='user'
                         name='user'
                         type='text'
@@ -31,10 +40,10 @@ function LoginPage({user, onSubmit}: LoginPageProps) {
                         value={currentUser}
                         onChange={(e) => setCurrentUser(e.target.value)}
                     />
-                    <button type='submit'>Set username</button>
+                    <button className='login-form__submit' type='submit'>Set username</button>
                 </div>
             </form>
-        </>
+        </section>
     )
 }
 

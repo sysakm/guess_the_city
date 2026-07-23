@@ -16,25 +16,31 @@ const navItems: Array<{page: AppPage, label: string}> = [
 
 function AppLayout({ activePage, onPageChange, children }: AppLayoutProps) {
     return (
-        <div>
-            <header>
-                <div>
-                    <h1>GUESS THE CITY GAME</h1>
-                </div>
-                <nav>
+        <div className='app-shell'>
+            <header className='app-header'>
+                <span className='app-brand'>Guess the City</span>
+                <nav className='app-nav' aria-label='Main navigation'>
                     {navItems.map((item) => {
                         return (
                             <button
-                                className={activePage === item.page ? 'active' : ''}
+                                className={`app-nav__button ${activePage === item.page ? 'active' : ''}`}
                                 key={item.page}
                                 onClick={() => onPageChange(item.page)}
                                 type='button'
+                                aria-current={activePage === item.page ? 'page' : undefined}
                             >{item.label}</button>
                         )
                     })}
                 </nav>
             </header>
-            <main>{children}</main>
+            <main>
+                <div className='game-card__header'>
+                    <p className='game-card__eyebrow'>Photo quiz</p>
+                    <h1>Guess the City</h1>
+                    <p className='game-card__subtitle'>Choose the city shown in the photo.</p>
+                </div>
+                {children}
+            </main>
         </div>
     )
 }

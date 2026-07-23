@@ -85,11 +85,6 @@ function GamePage({user}: GamePageProps){
 
     return (
         <section className='game-card'>
-            <div className='game-card__header'>
-                <p className='game-card__eyebrow'>Photo quiz</p>
-                <h1>Guess the City</h1>
-                <p className='game-card__subtitle'>Choose the city shown in the photo.</p>
-            </div>
             {stats && <StatsBox user={user} stats={stats}/>}
             <Photo status={status}/>
             {(status.type === 'success') && options && <AnswerContainer
