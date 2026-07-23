@@ -1,13 +1,17 @@
-import type {PhotoStatus, StatisticsCache, TaskOptions} from "../types.ts";
+import type {PhotoStatus, StatisticsCache, TaskOptions} from "../../types.ts";
 import {useEffect, useState} from "react";
-import {requestCityPhoto} from "../api/unsplash.ts";
-import {generateOptions} from "../game/data.ts";
-import {loadStatsCache, saveStatsCache} from "../storage/statsStorage.ts";
-import Photo from "./Photo.tsx";
-import StatsBox from "./StatsBox.tsx";
-import AnswerContainer from "./AnswerContainer.tsx";
+import {requestCityPhoto} from "../../api/unsplash.ts";
+import {generateOptions} from "../../game/data.ts";
+import {loadStatsCache, saveStatsCache} from "../../storage/statsStorage.ts";
+import Photo from "../Photo.tsx";
+import StatsBox from "../StatsBox.tsx";
+import AnswerContainer from "../AnswerContainer.tsx";
 
-function GameBoard() {
+type GamePageProps = {
+    user: string;
+}
+
+function GamePage({user}: GamePageProps){
     const [status, setStatus] = useState<PhotoStatus>({
         type: 'idle',
         message: 'Nothing loaded yet.'
@@ -36,17 +40,17 @@ function GameBoard() {
     }
 
     useEffect(() => {
-        const cache = loadStatsCache() ?? {wins: 0, losses: 0}
+        const cache = loadStatsCache(user) ?? {wins: 0, losses: 0}
         setStats(cache)
 
         loadNewTask()
-    }, [])
+    }, [user])
 
     useEffect(() => {
         if (stats) {
-            saveStatsCache(stats)
+            saveStatsCache(user, stats)
         }
-    }, [stats])
+    }, [user, stats])
 
     function handleAnswer(index: number) {
         if (chosenIndex !== undefined) {
@@ -86,7 +90,7 @@ function GameBoard() {
                 <h1>Guess the City</h1>
                 <p className='game-card__subtitle'>Choose the city shown in the photo.</p>
             </div>
-            {stats && <StatsBox stats={stats}/>}
+            {stats && <StatsBox user={user} stats={stats}/>}
             <Photo status={status}/>
             {(status.type === 'success') && options && <AnswerContainer
                 options={options}
@@ -111,4 +115,4 @@ function GameBoard() {
     )
 }
 
-export default GameBoard
+export default GamePage
