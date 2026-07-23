@@ -3,6 +3,7 @@ import AppLayout, {type AppPage} from "./components/AppLayout.tsx";
 import LoginPage from "./components/pages/LoginPage.tsx";
 import GamePage from "./components/pages/GamePage.tsx";
 import {loadLogin, saveLogin} from "./storage/statsStorage.ts";
+import StatsPage from "./components/pages/StatsPage.tsx";
 
 const DEFAULT_USERNAME = 'Username'
 
@@ -19,7 +20,7 @@ function App() {
         <AppLayout activePage={page} onPageChange={setPage}>
             {page === 'login' && <LoginPage user={user} onSubmit={handleLoginSubmit}/>}
             {page === 'game' && <GamePage user={user}/>}
-            {/*{page === 'stats' && <StatsPage />}*/}
+            {page === 'stats' && <StatsPage />}
         </AppLayout>
     )
 }

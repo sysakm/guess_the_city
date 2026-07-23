@@ -20,3 +20,10 @@ export type StatisticsCache = {
     wins: number;
     losses: number;
 }
+
+export type StatisticsEntry = {
+    user: string;
+    stats: StatisticsCache;
+}
+
+export type FullStatisticsTable = Array<StatisticsEntry>
