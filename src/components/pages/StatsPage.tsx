@@ -63,6 +63,20 @@ function StatsPage() {
     const [sortingKey, setSortingKey] = useState<SortingKey>('wins')
     const [sortingWay, setSortingWay] = useState<SortingWay>('desc')
 
+    function getSortingClass(key: SortingKey) {
+        if (sortingKey !== key) {
+            return 'nosort'
+        }
+        return sortingWay === 'asc' ? 'sort-up' : 'sort-down'
+    }
+
+    function getAriaSort(key: SortingKey): 'ascending' | 'descending' | 'none' {
+        if (sortingKey !== key) {
+            return 'none'
+        }
+        return sortingWay === 'asc' ? 'ascending' : 'descending'
+    }
+
     function handleUpdateSorting(pressedKey: SortingKey) {
         const [newSortingKey, newSortingWay] = updateSorting(sortingKey, sortingWay, pressedKey)
         setSortingKey(newSortingKey)
@@ -73,27 +87,27 @@ function StatsPage() {
         createSorting(sortingKey, sortingWay)
     )
     return (
-        <div>
-            <table>
+        <div className='statistics-page'>
+            <table className='statistics-table'>
                 <thead>
                     <tr>
-                        <th>
-                            <button type='button' onClick={() => handleUpdateSorting('user')}>
+                        <th aria-sort={getAriaSort('user')}>
+                            <button className={`statistics-sort ${getSortingClass('user')}`} type='button' onClick={() => handleUpdateSorting('user')}>
                                 Username
                             </button>
                         </th>
-                        <th>
-                            <button type='button' onClick={() => handleUpdateSorting('wins')}>
+                        <th aria-sort={getAriaSort('wins')}>
+                            <button className={`statistics-sort ${getSortingClass('wins')}`} type='button' onClick={() => handleUpdateSorting('wins')}>
                                 Wins
                             </button>
                         </th>
-                        <th>
-                            <button type='button' onClick={() => handleUpdateSorting('losses')}>
+                        <th aria-sort={getAriaSort('losses')}>
+                            <button className={`statistics-sort ${getSortingClass('losses')}`} type='button' onClick={() => handleUpdateSorting('losses')}>
                                 Losses
                             </button>
                         </th>
-                        <th>
-                            <button type='button' onClick={() => handleUpdateSorting('winRate')}>
+                        <th aria-sort={getAriaSort('winRate')}>
+                            <button className={`statistics-sort ${getSortingClass('winRate')}`} type='button' onClick={() => handleUpdateSorting('winRate')}>
                                 Win Rate
                             </button>
                         </th>
